@@ -1,0 +1,6 @@
+{
+  "name": "TPQ Abu Bakar Amin",
+  "description": "Sistem digital pengelolaan data santri, pembuatan kartu santri, dan verifikasi QR Code TPQ/LPQ Abu Bakar Amin.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
