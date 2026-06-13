@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
             database.configDao(),
             database.absensiDao()
         )
-        val factory = TPQViewModelFactory(repository)
+        val factory = TPQViewModelFactory(repository, applicationContext)
         val viewModel = ViewModelProvider(this, factory)[TPQViewModel::class.java]
 
         setContent {

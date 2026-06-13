@@ -14,7 +14,29 @@ import com.elshadiqan.tpqaba.data.repository.TPQRepository
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-class TPQViewModel(private val repository: TPQRepository) : ViewModel() {
+class TPQViewModel(
+    private val repository: TPQRepository,
+    private val context: Context
+) : ViewModel() {
+
+    init {
+        loadPersistedSession()
+    }
+
+    private fun loadPersistedSession() {
+        val prefs = context.getSharedPreferences("tpq_aba_prefs", Context.MODE_PRIVATE)
+        val savedUsername = prefs.getString("user_session", null)
+        if (savedUsername != null) {
+            viewModelScope.launch {
+                val user = repository.getUserByUsername(savedUsername)
+                if (user != null) {
+                    _currentUser.value = user
+                } else {
+                    prefs.edit().remove("user_session").apply()
+                }
+            }
+        }
+    }
 
     // --- 0. AppConfig State ---
     val appConfig: StateFlow<AppConfig> = repository.appConfig
@@ -65,6 +87,8 @@ class TPQViewModel(private val repository: TPQRepository) : ViewModel() {
         val user = repository.getUserByUsername(username)
         return if (user != null && user.passwordHash == passwordHash) {
             _currentUser.value = user
+            val prefs = context.getSharedPreferences("tpq_aba_prefs", Context.MODE_PRIVATE)
+            prefs.edit().putString("user_session", username).apply()
             showNotification("Login Berhasil sebagai ${user.role}!")
             true
         } else {
@@ -75,6 +99,8 @@ class TPQViewModel(private val repository: TPQRepository) : ViewModel() {
 
     fun logout() {
         _currentUser.value = null
+        val prefs = context.getSharedPreferences("tpq_aba_prefs", Context.MODE_PRIVATE)
+        prefs.edit().remove("user_session").apply()
         showNotification("Logout Berhasil")
     }
 
@@ -287,11 +313,14 @@ class TPQViewModel(private val repository: TPQRepository) : ViewModel() {
     }
 }
 
-class TPQViewModelFactory(private val repository: TPQRepository) : ViewModelProvider.Factory {
+class TPQViewModelFactory(
+    private val repository: TPQRepository,
+    private val context: Context
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TPQViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TPQViewModel(repository) as T
+            return TPQViewModel(repository, context) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
