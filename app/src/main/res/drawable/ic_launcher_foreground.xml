@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:width="66dp"
-        android:height="66dp"
-        android:drawable="@drawable/logo_tpq"
-        android:gravity="center" />
-</layer-list>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    
+    <!-- Decorative background glow star / geometry (Islamic octagon star) -->
+    <path
+        android:pathData="M54,24 L62.5,37.5 L78,36 L70.5,50 L78,64 L62.5,62.5 L54,76 L45.5,62.5 L30,64 L37.5,50 L30,36 L45.5,37.5 Z"
+        android:fillColor="#1AFFFFFF" />
+        
+    <!-- Main Center Qur'an Book Stand (Rehal) in clean white / gold outline -->
+    <!-- Stand Left diagonal leg -->
+    <path
+        android:pathData="M38,66 C38,66 45,55 54,49 C63,55 70,66 70,66"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+        
+    <!-- Stand Right diagonal leg crossed -->
+    <path
+        android:pathData="M44,60 L64,60"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round" />
+
+    <!-- Open Holy Quran Pages -->
+    <path
+        android:pathData="M54,44 C48,37 38,37 30,39 L30,55 C38,53 48,53 54,60 C60,53 70,53 78,55 L78,39 C70,37 60,37 54,44 Z"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#FFD700" 
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="round" />
+
+    <!-- Quran Book Spine divider line -->
+    <path
+        android:pathData="M54,44 L54,60"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="2" />
+        
+    <!-- Beautiful star/sparkle at the top symbolizing light -->
+    <path
+        android:pathData="M54,26 L55.5,30 L59.5,30 L56,32 L57.5,36 L54,33.5 L50.5,36 L52,32 L48.5,30 L52.5,30 Z"
+        android:fillColor="#FFD700" />
+        
+</vector>
