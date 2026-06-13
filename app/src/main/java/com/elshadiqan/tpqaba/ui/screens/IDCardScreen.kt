@@ -615,7 +615,7 @@ fun CardDepanLayout(
                     .fillMaxSize(0.65f)
                     .align(Alignment.Center)
                     .clip(RoundedCornerShape(24.dp)),
-                alpha = 0.07f,
+                alpha = 0.18f,
                 contentScale = ContentScale.Fit
             )
 
@@ -845,7 +845,7 @@ fun CardBelakangLayout(
                     .fillMaxSize(0.65f)
                     .align(Alignment.Center)
                     .clip(RoundedCornerShape(24.dp)),
-                alpha = 0.07f,
+                alpha = 0.18f,
                 contentScale = ContentScale.Fit
             )
 
@@ -1011,7 +1011,7 @@ fun CardUstadzFrontLayout(ustadz: Ustadz, appConfig: AppConfig) {
                     .fillMaxSize(0.65f)
                     .align(Alignment.Center)
                     .clip(RoundedCornerShape(24.dp)),
-                alpha = 0.07f,
+                alpha = 0.18f,
                 contentScale = ContentScale.Fit
             )
 
@@ -1216,7 +1216,7 @@ fun CardUstadzBackLayout(ustadz: Ustadz, appConfig: AppConfig) {
                     .fillMaxSize(0.65f)
                     .align(Alignment.Center)
                     .clip(RoundedCornerShape(24.dp)),
-                alpha = 0.07f,
+                alpha = 0.18f,
                 contentScale = ContentScale.Fit
             )
 
