@@ -77,7 +77,7 @@ data class AppConfig(
     val kepalaTpq: String = "Ustadz H. Ahmad Amin",
     val tahunAjaran: String = "2026/2027",
     val izinkanPencarianPublik: Boolean = true,
-    val firebaseDbUrl: String = "https://tpq-abu-bakar-amin-default-rtdb.asia-southeast1.firebasedatabase.app/",
+    val firebaseDbUrl: String = "https://android-a94c8-default-rtdb.firebaseio.com/",
     val firebaseSecret: String = "",
     val logoTpq: String? = null
 )
