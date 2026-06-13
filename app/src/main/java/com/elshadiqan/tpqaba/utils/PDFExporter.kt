@@ -62,7 +62,12 @@ object PDFExporter {
         paint.colorFilter = PorterDuffColorFilter(Color.parseColor(filterColor), PorterDuff.Mode.SRC_IN)
         
         val destRect = RectF(left.toFloat(), top.toFloat(), (left + drawWidth).toFloat(), (top + drawHeight).toFloat())
+        canvas.save()
+        val rPath = Path()
+        rPath.addRoundRect(destRect, 24f, 24f, Path.Direction.CW)
+        canvas.clipPath(rPath)
         canvas.drawBitmap(logo, null, destRect, paint)
+        canvas.restore()
         
         paint.alpha = originalAlpha
         paint.colorFilter = originalColorFilter

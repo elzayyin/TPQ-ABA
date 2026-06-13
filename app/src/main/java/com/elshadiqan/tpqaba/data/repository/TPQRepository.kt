@@ -170,26 +170,30 @@ class TPQRepository(
                 
                 // Overwrite Kelas
                 kelasDao.clearAllKelas()
-                if (syncData.kelasList.isNotEmpty()) {
-                    kelasDao.insertKelasList(syncData.kelasList)
+                val kList = syncData.kelasList
+                if (kList != null && kList.isNotEmpty()) {
+                    kelasDao.insertKelasList(kList)
                 }
 
                 // Overwrite Santri
                 santriDao.clearAllSantri()
-                if (syncData.santriList.isNotEmpty()) {
-                    santriDao.insertSantriList(syncData.santriList)
+                val sList = syncData.santriList
+                if (sList != null && sList.isNotEmpty()) {
+                    santriDao.insertSantriList(sList)
                 }
 
                 // Overwrite Ustadz
                 ustadzDao.clearAllUstadz()
-                if (syncData.ustadzList.isNotEmpty()) {
-                    ustadzDao.insertUstadzList(syncData.ustadzList)
+                val uList = syncData.ustadzList
+                if (uList != null && uList.isNotEmpty()) {
+                    ustadzDao.insertUstadzList(uList)
                 }
 
                 // Overwrite Absensi
                 absensiDao.clearAllAbsensi()
-                if (syncData.absensiList.isNotEmpty()) {
-                    absensiDao.insertAbsensiList(syncData.absensiList)
+                val aList = syncData.absensiList
+                if (aList != null && aList.isNotEmpty()) {
+                    absensiDao.insertAbsensiList(aList)
                 }
 
                 true

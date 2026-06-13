@@ -2,6 +2,7 @@ package com.elshadiqan.tpqaba.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.JsonClass
 
 @Entity(tableName = "users")
 data class User(
@@ -12,6 +13,7 @@ data class User(
     val createdAt: Long = System.currentTimeMillis()
 )
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "santri")
 data class Santri(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -36,6 +38,7 @@ data class Santri(
     val createdAt: Long = System.currentTimeMillis()
 )
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "kelas")
 data class Kelas(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -44,6 +47,7 @@ data class Kelas(
     val waliKelas: String
 )
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "ustadz")
 data class Ustadz(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -55,6 +59,7 @@ data class Ustadz(
     val foto: String? = null // local path inside context.filesDir/images/ustadz/
 )
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "absensi")
 data class Absensi(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
@@ -67,6 +72,7 @@ data class Absensi(
     val status: String = "Hadir" // "Hadir", "Sakit", "Izin", "Alpa"
 )
 
+@JsonClass(generateAdapter = true)
 @Entity(tableName = "app_config")
 data class AppConfig(
     @PrimaryKey val id: Int = 1,

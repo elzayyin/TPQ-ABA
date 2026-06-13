@@ -16,12 +16,15 @@ import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.concurrent.TimeUnit
 
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class FirebaseSyncData(
-    val appConfig: AppConfig?,
-    val kelasList: List<Kelas>,
-    val santriList: List<Santri>,
-    val ustadzList: List<Ustadz>,
-    val absensiList: List<Absensi>
+    val appConfig: AppConfig? = null,
+    val kelasList: List<Kelas>? = emptyList(),
+    val santriList: List<Santri>? = emptyList(),
+    val ustadzList: List<Ustadz>? = emptyList(),
+    val absensiList: List<Absensi>? = emptyList()
 )
 
 object FirebaseSyncManager {
