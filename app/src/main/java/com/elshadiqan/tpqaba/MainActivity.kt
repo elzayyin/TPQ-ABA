@@ -3,6 +3,7 @@ package com.elshadiqan.tpqaba
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.compose.BackHandler
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.*
 import androidx.compose.foundation.layout.*
@@ -72,6 +73,15 @@ class MainActivity : ComponentActivity() {
                 var isPublicPortalActive by remember { mutableStateOf(false) }
                 var isConfigScreenActive by remember { mutableStateOf(false) }
 
+                // Outer back handlers
+                BackHandler(enabled = isConfigScreenActive) {
+                    isConfigScreenActive = false
+                }
+
+                BackHandler(enabled = isPublicPortalActive) {
+                    isPublicPortalActive = false
+                }
+
                 LaunchedEffect(Unit) {
                     kotlinx.coroutines.delay(2000)
                     showSplashScreen = false
@@ -111,6 +121,16 @@ class MainActivity : ComponentActivity() {
                     var selectedTab by remember { mutableStateOf(0) } // 0: Dash, 1: Santri, 2: Kelas, 3: Ustadz, 4: QR, 5: Card
                     var selectedNisForIDCard by remember { mutableStateOf<String?>(null) }
                     var selectedUstadzIdForIDCard by remember { mutableStateOf<Int?>(null) }
+
+                    // Custom back navigation for main dashboard and sub-views
+                    BackHandler(enabled = selectedNisForIDCard != null || selectedUstadzIdForIDCard != null) {
+                        selectedNisForIDCard = null
+                        selectedUstadzIdForIDCard = null
+                    }
+
+                    BackHandler(enabled = selectedTab != 0 && selectedNisForIDCard == null && selectedUstadzIdForIDCard == null) {
+                        selectedTab = 0
+                    }
 
                     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
                         val isWideScreen = maxWidth >= 600.dp

@@ -20,6 +20,8 @@ import androidx.compose.material.icons.filled.Save
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Download
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -390,7 +392,180 @@ fun ConfigScreen(
                     }
                 }
             }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(containerColor = Color.White),
+                    border = BorderStroke(1.dp, HighDensityBorder),
+                    shape = RoundedCornerShape(24.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(14.dp)
+                    ) {
+                        Text(
+                            text = "Backup & Impor / Ekspor Konfigurasi",
+                            color = HighDensityPrimary,
+                            fontSize = 15.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            text = "Gunakan template JSON untuk membackup atau memulihkan konfigurasi sistem, nama TPQ, alamat, dan URL Firebase sinkronisasi.",
+                            color = HighDensityTextMedium,
+                            fontSize = 11.sp
+                        )
+
+                        var jsonInputText by remember { mutableStateOf("") }
+
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            OutlinedButton(
+                                onClick = {
+                                    val templateText = """{
+  "namaTpq": "$namaTpq",
+  "subHeader": "$subHeader",
+  "alamat": "$alamat",
+  "telepon": "$telepon",
+  "kepalaTpq": "$kepalaTpq",
+  "tahunAjaran": "$tahunAjaran",
+  "izinkanPencarianPublik": ${izinkanPencarianPublik},
+  "firebaseDbUrl": "$firebaseDbUrl",
+  "firebaseSecret": "$firebaseSecret"
+}"""
+                                    val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                    val clip = android.content.ClipData.newPlainText("Template Config", templateText)
+                                    clipboard.setPrimaryClip(clip)
+                                    viewModel.showNotification("Format JSON Konfigurasi disalin ke clipboard!")
+                                },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
+                            ) {
+                                Icon(Icons.Default.ContentCopy, contentDescription = null, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Salin Config", fontSize = 10.sp)
+                            }
+
+                            OutlinedButton(
+                                onClick = {
+                                    try {
+                                        val templateText = """{
+  "namaTpq": "$namaTpq",
+  "subHeader": "$subHeader",
+  "alamat": "$alamat",
+  "telepon": "$telepon",
+  "kepalaTpq": "$kepalaTpq",
+  "tahunAjaran": "$tahunAjaran",
+  "izinkanPencarianPublik": ${izinkanPencarianPublik},
+  "firebaseDbUrl": "$firebaseDbUrl",
+  "firebaseSecret": "$firebaseSecret"
+}"""
+                                        val downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+                                        val file = File(downloadsDir, "template_config.json")
+                                        file.writeText(templateText)
+                                        viewModel.showNotification("Berhasil ekspor ke: /Downloads/template_config.json")
+                                    } catch (e: Exception) {
+                                        viewModel.showNotification("Gagal ekspor ke file, disarankan Menyalin saja.")
+                                    }
+                                },
+                                modifier = Modifier.weight(1f).height(36.dp),
+                                shape = RoundedCornerShape(8.dp),
+                                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
+                            ) {
+                                Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(14.dp))
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text("Unduh JSON", fontSize = 10.sp)
+                            }
+                        }
+
+                        Divider(modifier = Modifier.padding(vertical = 4.dp))
+
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text(
+                                text = "Tempel JSON konfigurasi untuk impor:",
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = HighDensityTextDark
+                            )
+                            OutlinedTextField(
+                                value = jsonInputText,
+                                onValueChange = { jsonInputText = it },
+                                placeholder = { Text("""{ "namaTpq": "LPQ Abu Bakar Amin", ... }""", fontSize = 11.sp) },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(100.dp),
+                                textStyle = LocalTextStyle.current.copy(fontSize = 11.sp)
+                            )
+                            Button(
+                                onClick = {
+                                    if (jsonInputText.isNotBlank()) {
+                                        val imported = parseConfigJson(jsonInputText)
+                                        if (imported != null) {
+                                            namaTpq = imported.namaTpq
+                                            subHeader = imported.subHeader
+                                            alamat = imported.alamat
+                                            telepon = imported.telepon
+                                            kepalaTpq = imported.kepalaTpq
+                                            tahunAjaran = imported.tahunAjaran
+                                            izinkanPencarianPublik = imported.izinkanPencarianPublik
+                                            firebaseDbUrl = imported.firebaseDbUrl
+                                            firebaseSecret = imported.firebaseSecret
+                                            viewModel.showNotification("Berhasil impor JSON! Tekan tombol Save mengambang di pojok kanan bawah untuk menyimpan.")
+                                            jsonInputText = ""
+                                        } else {
+                                            viewModel.showNotification("Format JSON tidak valid atau namaTpq kosong!")
+                                        }
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(containerColor = HighDensityPrimary),
+                                shape = RoundedCornerShape(8.dp),
+                                modifier = Modifier.align(Alignment.End).height(32.dp),
+                                contentPadding = PaddingValues(horizontal = 14.dp, vertical = 2.dp)
+                            ) {
+                                Text("Proses Impor", fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
+            }
         }
+    }
+}
+
+private fun parseConfigJson(jsonText: String): AppConfig? {
+    return try {
+        fun extractKey(key: String): String {
+            val pattern = "\"$key\"\\s*:\\s*\"([^\"]*)\"".toRegex()
+            return pattern.find(jsonText)?.groupValues?.get(1)?.trim() ?: ""
+        }
+        fun extractBool(key: String): Boolean {
+            val pattern = "\"$key\"\\s*:\\s*(true|false)".toRegex()
+            return pattern.find(jsonText)?.groupValues?.get(1)?.toBoolean() ?: true
+        }
+
+        val nama = extractKey("namaTpq")
+        if (nama.isBlank()) return null
+        
+        AppConfig(
+            id = 1,
+            namaTpq = nama,
+            subHeader = extractKey("subHeader").ifBlank { "Sistem Informasi & Kartu Pengenal Digital" },
+            alamat = extractKey("alamat"),
+            telepon = extractKey("telepon"),
+            kepalaTpq = extractKey("kepalaTpq"),
+            tahunAjaran = extractKey("tahunAjaran").ifBlank { "2026/2027" },
+            izinkanPencarianPublik = extractBool("izinkanPencarianPublik"),
+            firebaseDbUrl = extractKey("firebaseDbUrl").ifBlank { "https://lpq-aba-default-rtdb.asia-southeast1.firebasedatabase.app/" },
+            firebaseSecret = extractKey("firebaseSecret"),
+            logoTpq = null
+        )
+    } catch (e: Exception) {
+        null
     }
 }
 

@@ -585,6 +585,49 @@ fun UstadzScreen(
                         lineHeight = 15.sp
                     )
 
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        OutlinedButton(
+                            onClick = {
+                                val templateText = "Nama,Jenis_Kelamin,Alamat,Hp,Jabatan\nUstadz Ahmad,Laki-laki,Mangkubumen,081234,Guru Utama\n"
+                                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+                                val clip = android.content.ClipData.newPlainText("Template Ustadz", templateText)
+                                clipboard.setPrimaryClip(clip)
+                                viewModel.showNotification("Template CSV Pengajar disalin ke clipboard!")
+                            },
+                            modifier = Modifier.weight(1f).height(36.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
+                        ) {
+                            Icon(Icons.Default.ContentCopy, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Salin Template", fontSize = 10.sp)
+                        }
+
+                        OutlinedButton(
+                            onClick = {
+                                try {
+                                    val templateText = "Nama,Jenis_Kelamin,Alamat,Hp,Jabatan\nUstadz Ahmad,Laki-laki,Mangkubumen,081234,Guru Utama\n"
+                                    val downloadsDir = android.os.Environment.getExternalStoragePublicDirectory(android.os.Environment.DIRECTORY_DOWNLOADS)
+                                    val file = File(downloadsDir, "template_ustadz.csv")
+                                    file.writeText(templateText)
+                                    viewModel.showNotification("Berhasil mengunduh ke: /Downloads/template_ustadz.csv")
+                                } catch (e: Exception) {
+                                    viewModel.showNotification("Gagal unduh file, disarankan Menyalin saja.")
+                                }
+                            },
+                            modifier = Modifier.weight(1f).height(36.dp),
+                            shape = RoundedCornerShape(8.dp),
+                            contentPadding = PaddingValues(horizontal = 4.dp, vertical = 2.dp)
+                        ) {
+                            Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(14.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Unduh CSV", fontSize = 10.sp)
+                        }
+                    }
+
                     // 1. File Upload Button
                     Button(
                         onClick = { filePickerLauncher.launch("text/*") },
