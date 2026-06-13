@@ -334,7 +334,7 @@ fun ConfigScreen(
                             value = firebaseDbUrl,
                             onValueChange = { firebaseDbUrl = it },
                             label = { Text("Firebase Database URL") },
-                            placeholder = { Text("https://tpqaba-ccb65-default-rtdb.firebaseio.com/") },
+                            placeholder = { Text("https://lpq-aba-default-rtdb.asia-southeast1.firebasedatabase.app/") },
                             modifier = Modifier.fillMaxWidth().testTag("config_firebase_url"),
                             shape = RoundedCornerShape(12.dp)
                         )

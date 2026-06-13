@@ -68,8 +68,14 @@ class MainActivity : ComponentActivity() {
                 val snackbarHostState = remember { SnackbarHostState() }
                 val scope = rememberCoroutineScope()
 
+                var showSplashScreen by remember { mutableStateOf(true) }
                 var isPublicPortalActive by remember { mutableStateOf(false) }
                 var isConfigScreenActive by remember { mutableStateOf(false) }
+
+                LaunchedEffect(Unit) {
+                    kotlinx.coroutines.delay(2000)
+                    showSplashScreen = false
+                }
 
                 // Register reactive snackbars for any database modifications
                 LaunchedEffect(notification) {
@@ -81,7 +87,9 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                if (isPublicPortalActive) {
+                if (showSplashScreen) {
+                    SplashScreen(appConfig = appConfig)
+                } else if (isPublicPortalActive) {
                     PublicPortalScreen(
                         viewModel = viewModel,
                         onBackToAdmin = { isPublicPortalActive = false }
@@ -558,3 +566,73 @@ data class SidebarItem(
     val icon: androidx.compose.ui.graphics.vector.ImageVector,
     val category: String
 )
+
+@Composable
+fun SplashScreen(appConfig: AppConfig) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(24.dp)
+        ) {
+            androidx.compose.foundation.Image(
+                painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_tpq),
+                contentDescription = "Logo LPQ Abu Bakar Amin",
+                modifier = Modifier
+                    .size(160.dp)
+                    .clip(RoundedCornerShape(24.dp))
+                    .border(2.dp, Color(0xFF0B8043).copy(alpha = 0.15f), RoundedCornerShape(24.dp))
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            Text(
+                text = appConfig.namaTpq.ifEmpty { "LPQ Abu Bakar Amin" },
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF04542A)
+                ),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text(
+                text = appConfig.subHeader.ifEmpty { "Sistem Informasi & Kartu Pengenal Digital" },
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Medium
+                ),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            
+            Spacer(modifier = Modifier.height(64.dp))
+            
+            CircularProgressIndicator(
+                color = Color(0xFF0B8043),
+                strokeWidth = 3.dp,
+                modifier = Modifier.size(36.dp)
+            )
+        }
+        
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 32.dp)
+        ) {
+            Text(
+                text = "Versi Digital v2.0",
+                style = MaterialTheme.typography.labelMedium.copy(
+                    color = Color.LightGray,
+                    fontWeight = FontWeight.Normal
+                )
+            )
+        }
+    }
+}
