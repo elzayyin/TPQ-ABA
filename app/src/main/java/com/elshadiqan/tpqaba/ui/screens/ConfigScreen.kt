@@ -171,11 +171,10 @@ fun ConfigScreen(
                                         modifier = Modifier.fillMaxSize()
                                     )
                                 } else {
-                                    Icon(
-                                        imageVector = Icons.Default.School,
+                                    androidx.compose.foundation.Image(
+                                        painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
                                         contentDescription = "Logo Placeholder",
-                                        tint = HighDensityPrimary,
-                                        modifier = Modifier.size(32.dp)
+                                        modifier = Modifier.fillMaxSize()
                                     )
                                 }
                             }

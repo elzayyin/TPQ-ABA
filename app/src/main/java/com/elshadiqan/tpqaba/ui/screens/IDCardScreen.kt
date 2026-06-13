@@ -625,11 +625,12 @@ fun CardDepanLayout(
                                 .clip(RoundedCornerShape(4.dp))
                         )
                     } else {
-                        Icon(
-                            imageVector = Icons.Default.School,
+                        androidx.compose.foundation.Image(
+                            painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
                             contentDescription = "Logo School",
-                            tint = Color.White,
-                            modifier = Modifier.size(22.dp)
+                            modifier = Modifier
+                                .size(22.dp)
+                                .clip(RoundedCornerShape(4.dp))
                         )
                     }
                     Spacer(modifier = Modifier.width(6.dp))
@@ -835,11 +836,12 @@ fun CardBelakangLayout(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.School,
+                    androidx.compose.foundation.Image(
+                        painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
                         contentDescription = "Logo School",
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(4.dp))
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(

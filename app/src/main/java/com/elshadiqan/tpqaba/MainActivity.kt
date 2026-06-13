@@ -366,19 +366,13 @@ fun SidebarNavigation(
                             .clip(RoundedCornerShape(8.dp))
                     )
                 } else {
-                    Box(
+                    androidx.compose.foundation.Image(
+                        painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
+                        contentDescription = "School Emblem",
                         modifier = Modifier
                             .size(46.dp)
-                            .background(HighDensityPrimary, shape = RoundedCornerShape(8.dp)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.School,
-                            contentDescription = "School Emblem",
-                            tint = Color.White,
-                            modifier = Modifier.size(22.dp)
-                        )
-                    }
+                            .clip(RoundedCornerShape(8.dp))
+                    )
                 }
 
                 Column(modifier = Modifier.weight(1f)) {
