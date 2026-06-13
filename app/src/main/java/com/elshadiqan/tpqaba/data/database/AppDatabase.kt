@@ -65,9 +65,7 @@ abstract class AppDatabase : RoomDatabase() {
                         val configDao = database.configDao()
                         val currentConfig = configDao.getConfig()
                         if (currentConfig != null) {
-                            if (currentConfig.firebaseDbUrl == "https://tpq-abu-bakar-amin-default-rtdb.asia-southeast1.firebasedatabase.app/" || 
-                                currentConfig.firebaseDbUrl == "https://android-a94c8-default-rtdb.firebaseio.com/" || 
-                                currentConfig.firebaseDbUrl.trim().isEmpty()) {
+                            if (currentConfig.firebaseDbUrl != "https://lpq-aba-default-rtdb.asia-southeast1.firebasedatabase.app/") {
                                 configDao.insertConfig(currentConfig.copy(firebaseDbUrl = "https://lpq-aba-default-rtdb.asia-southeast1.firebasedatabase.app/"))
                             }
                         } else {

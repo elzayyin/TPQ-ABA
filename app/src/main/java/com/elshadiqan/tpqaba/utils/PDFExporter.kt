@@ -12,6 +12,62 @@ import java.io.FileOutputStream
 
 object PDFExporter {
 
+    private fun getLogoBitmap(context: Context, appConfig: AppConfig): Bitmap? {
+        try {
+            if (appConfig.logoTpq != null) {
+                val file = File(appConfig.logoTpq)
+                if (file.exists()) {
+                    val bmp = BitmapFactory.decodeFile(file.absolutePath)
+                    if (bmp != null) return bmp
+                }
+            }
+            return BitmapFactory.decodeResource(context.resources, com.elshadiqan.tpqaba.R.drawable.logo_tpq)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+    }
+
+    private fun drawWatermark(
+        canvas: Canvas,
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int,
+        logo: Bitmap,
+        paint: Paint,
+        isDarkBg: Boolean
+    ) {
+        val originalAlpha = paint.alpha
+        val originalColorFilter = paint.colorFilter
+        
+        val targetSize = (height * 0.65f).toInt()
+        
+        val logoRatio = logo.width.toFloat() / logo.height.toFloat()
+        val drawHeight: Int
+        val drawWidth: Int
+        if (logoRatio > 1) {
+            drawWidth = targetSize
+            drawHeight = (targetSize / logoRatio).toInt()
+        } else {
+            drawHeight = targetSize
+            drawWidth = (targetSize * logoRatio).toInt()
+        }
+        
+        val left = x + (width - drawWidth) / 2
+        val top = y + (height - drawHeight) / 2
+        
+        paint.alpha = 20 // ~8% transparency
+        val filterColor = if (isDarkBg) "#A3E635" else "#0E5C3A"
+        paint.colorFilter = PorterDuffColorFilter(Color.parseColor(filterColor), PorterDuff.Mode.SRC_IN)
+        
+        val destRect = RectF(left.toFloat(), top.toFloat(), (left + drawWidth).toFloat(), (top + drawHeight).toFloat())
+        canvas.drawBitmap(logo, null, destRect, paint)
+        
+        paint.alpha = originalAlpha
+        paint.colorFilter = originalColorFilter
+    }
+
     fun exportIDCardsToPDF(
         context: Context,
         santriList: List<Santri>,
@@ -98,6 +154,12 @@ object PDFExporter {
             16f, 16f, paint
         )
         paint.style = Paint.Style.FILL
+
+        // Draw Watermark Logo
+        val logoBmp = getLogoBitmap(context, appConfig)
+        if (logoBmp != null) {
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false)
+        }
 
         // Green Header Band
         paint.color = Color.parseColor("#0E5C3A")
@@ -256,6 +318,12 @@ object PDFExporter {
         )
         paint.style = Paint.Style.FILL
 
+        // Draw Watermark Logo
+        val logoBmp = getLogoBitmap(context, appConfig)
+        if (logoBmp != null) {
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false)
+        }
+
         // Title Back
         paint.color = Color.parseColor("#0E5C3A")
         paint.textSize = 15f
@@ -356,8 +424,8 @@ object PDFExporter {
 
                 // Centered placement on A4 page
                 // Front and back card elements drawn side-by-side
-                drawTeacherFrontCard(canvas, 40, 200, 240, 390, ustadz, paint, appConfig)
-                drawTeacherBackCard(canvas, 315, 200, 240, 390, ustadz, paint, appConfig)
+                drawTeacherFrontCard(context, canvas, 40, 200, 240, 390, ustadz, paint, appConfig)
+                drawTeacherBackCard(context, canvas, 315, 200, 240, 390, ustadz, paint, appConfig)
 
                 pdfDocument.finishPage(page)
             }
@@ -372,6 +440,7 @@ object PDFExporter {
     }
 
     private fun drawTeacherFrontCard(
+        context: Context,
         canvas: Canvas,
         x: Int,
         y: Int,
@@ -397,6 +466,12 @@ object PDFExporter {
             18f, 18f, paint
         )
         paint.style = Paint.Style.FILL
+
+        // Draw Watermark Logo
+        val logoBmp = getLogoBitmap(context, appConfig)
+        if (logoBmp != null) {
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true)
+        }
 
         // Top decorative curved ribbons
         paint.color = Color.parseColor("#0E5C3A")
@@ -563,6 +638,7 @@ object PDFExporter {
     }
 
     private fun drawTeacherBackCard(
+        context: Context,
         canvas: Canvas,
         x: Int,
         y: Int,
@@ -588,6 +664,12 @@ object PDFExporter {
             18f, 18f, paint
         )
         paint.style = Paint.Style.FILL
+
+        // Draw Watermark Logo
+        val logoBmp = getLogoBitmap(context, appConfig)
+        if (logoBmp != null) {
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true)
+        }
 
         // Top heading
         paint.color = Color.parseColor("#0E5C3A")

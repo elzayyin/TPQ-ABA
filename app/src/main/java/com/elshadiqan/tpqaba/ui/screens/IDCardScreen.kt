@@ -608,6 +608,16 @@ fun CardDepanLayout(
                 .fillMaxSize()
                 .background(greenGradient)
         ) {
+            AsyncImage(
+                model = if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) appConfig.logoTpq else com.elshadiqan.tpqaba.R.drawable.logo_tpq,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(0.65f)
+                    .align(Alignment.Center),
+                alpha = 0.07f,
+                contentScale = ContentScale.Fit
+            )
+
             Column(modifier = Modifier.fillMaxSize()) {
                 // Top Header Band
                 Row(
@@ -827,6 +837,16 @@ fun CardBelakangLayout(
                 .fillMaxSize()
                 .background(greenGradient)
         ) {
+            AsyncImage(
+                model = if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) appConfig.logoTpq else com.elshadiqan.tpqaba.R.drawable.logo_tpq,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(0.65f)
+                    .align(Alignment.Center),
+                alpha = 0.07f,
+                contentScale = ContentScale.Fit
+            )
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -972,6 +992,16 @@ fun CardUstadzFrontLayout(ustadz: Ustadz, appConfig: AppConfig) {
                 .fillMaxSize()
                 .background(emeraldGradient)
         ) {
+            AsyncImage(
+                model = if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) appConfig.logoTpq else com.elshadiqan.tpqaba.R.drawable.logo_tpq,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(0.65f)
+                    .align(Alignment.Center),
+                alpha = 0.07f,
+                contentScale = ContentScale.Fit
+            )
+
             // Upper wave header
             Box(
                 modifier = Modifier
@@ -1166,6 +1196,16 @@ fun CardUstadzBackLayout(ustadz: Ustadz, appConfig: AppConfig) {
                 .fillMaxSize()
                 .background(Color(0xFF05351E))
         ) {
+            AsyncImage(
+                model = if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) appConfig.logoTpq else com.elshadiqan.tpqaba.R.drawable.logo_tpq,
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxSize(0.65f)
+                    .align(Alignment.Center),
+                alpha = 0.07f,
+                contentScale = ContentScale.Fit
+            )
+
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
