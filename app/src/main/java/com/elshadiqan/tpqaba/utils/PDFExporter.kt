@@ -21,7 +21,14 @@ object PDFExporter {
                     if (bmp != null) return bmp
                 }
             }
-            return BitmapFactory.decodeResource(context.resources, com.elshadiqan.tpqaba.R.drawable.logo_tpq)
+            val drawable = androidx.core.content.ContextCompat.getDrawable(context, com.elshadiqan.tpqaba.R.drawable.logo_tpq) ?: return null
+            val width = if (drawable.intrinsicWidth > 0) drawable.intrinsicWidth else 256
+            val height = if (drawable.intrinsicHeight > 0) drawable.intrinsicHeight else 256
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            return bitmap
         } catch (e: Exception) {
             e.printStackTrace()
             return null

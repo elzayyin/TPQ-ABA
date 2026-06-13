@@ -4,45 +4,93 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    
-    <!-- Decorative background glow star / geometry (Islamic octagon star) -->
-    <path
-        android:pathData="M54,24 L62.5,37.5 L78,36 L70.5,50 L78,64 L62.5,62.5 L54,76 L45.5,62.5 L30,64 L37.5,50 L30,36 L45.5,37.5 Z"
-        android:fillColor="#1AFFFFFF" />
-        
-    <!-- Main Center Qur'an Book Stand (Rehal) in clean white / gold outline -->
-    <!-- Stand Left diagonal leg -->
-    <path
-        android:pathData="M38,66 C38,66 45,55 54,49 C63,55 70,66 70,66"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="4"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round" />
-        
-    <!-- Stand Right diagonal leg crossed -->
-    <path
-        android:pathData="M44,60 L64,60"
-        android:strokeColor="#FFFFFF"
-        android:strokeWidth="3.5"
-        android:strokeLineCap="round" />
 
-    <!-- Open Holy Quran Pages -->
-    <path
-        android:pathData="M54,44 C48,37 38,37 30,39 L30,55 C38,53 48,53 54,60 C60,53 70,53 78,55 L78,39 C70,37 60,37 54,44 Z"
-        android:fillColor="#FFFFFF"
-        android:strokeColor="#FFD700" 
-        android:strokeWidth="1.5"
-        android:strokeLineJoin="round" />
+    <group
+        android:scaleX="0.515"
+        android:scaleY="0.515"
+        android:translateX="21"
+        android:translateY="21">
+        
+        <!-- Decorative background glow star / geometry (Islamic octagon star) in soft green / gold -->
+        <path
+            android:pathData="M64,12 L77,29 L100,29 L100,52 L117,65 L100,78 L100,101 L77,101 L64,118 L51,101 L28,101 L28,78 L11,65 L28,52 L28,29 L51,29 Z"
+            android:fillColor="#0D04542A"
+            android:strokeColor="#1A04542A"
+            android:strokeWidth="1.5" />
 
-    <!-- Quran Book Spine divider line -->
-    <path
-        android:pathData="M54,44 L54,60"
-        android:strokeColor="#FFD700"
-        android:strokeWidth="2" />
-        
-    <!-- Beautiful star/sparkle at the top symbolizing light -->
-    <path
-        android:pathData="M54,26 L55.5,30 L59.5,30 L56,32 L57.5,36 L54,33.5 L50.5,36 L52,32 L48.5,30 L52.5,30 Z"
-        android:fillColor="#FFD700" />
-        
+        <!-- Outer Circular Golden border frame with dotted decoration -->
+        <path
+            android:pathData="M64,18 C88.3,18 108,37.7 108,62 C108,86.3 88.3,106 64,106 C39.7,106 20,86.3 20,62 C20,37.7 39.7,18 64,18 Z"
+            android:strokeColor="#D4AF37"
+            android:strokeWidth="2.5"
+            android:strokeLineCap="round" />
+
+        <path
+            android:pathData="M64,24 C84,24 100,40 100,60 C100,80 84,96 64,96 C44,96 28,80 28,60 C28,40 44,24 64,24 Z"
+            android:strokeColor="#04542A"
+            android:strokeWidth="1"
+            android:strokeLineJoin="round" />
+
+        <!-- Open Holy Quran Book (Rehal) stand in deep green -->
+        <path
+            android:pathData="M44,83 C44,83 52,70 64,63 C76,70 84,83 84,83"
+            android:strokeColor="#04542A"
+            android:strokeWidth="5"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+
+        <!-- Stand Right / horizontal cross element -->
+        <path
+            android:pathData="M51,75 L77,75"
+            android:strokeColor="#04542A"
+            android:strokeWidth="4"
+            android:strokeLineCap="round" />
+
+        <!-- Open Holy Quran Pages: styled elegantly in soft cream filling to read perfectly -->
+        <path
+            android:pathData="M64,56 C57,48 45,48 36,50 L36,69 C45,67 57,67 64,75 C71,67 83,67 92,69 L92,50 C83,48 71,48 64,56 Z"
+            android:fillColor="#FFFDF0" />
+
+        <!-- Green outlines of Quran pages -->
+        <path
+            android:pathData="M64,56 C57,48 45,48 36,50 L36,69 C45,67 57,67 64,75 C71,67 83,67 92,69 L92,50 C83,48 71,48 64,56 Z"
+            android:strokeColor="#04542A"
+            android:strokeWidth="2.5"
+            android:strokeLineJoin="round" />
+
+        <!-- Spine separator line of Holy Quran -->
+        <path
+            android:pathData="M64,56 L64,75"
+            android:strokeColor="#D4AF37"
+            android:strokeWidth="2.5" />
+
+        <!-- Gold Calligraphy-like horizontal strokes on Holy Quran representing scriptures -->
+        <path
+            android:pathData="M42,56 L54,56 M42,61 L54,61 M42,66 L50,66"
+            android:strokeColor="#D4AF37"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round" />
+
+        <path
+            android:pathData="M74,56 L86,56 M74,61 L86,61 M78,66 L86,66"
+            android:strokeColor="#D4AF37"
+            android:strokeWidth="1.5"
+            android:strokeLineCap="round" />
+
+        <!-- Glowing Sparkle / Star at top representing divine guidance (Nuur / Light) -->
+        <path
+            android:pathData="M64,30 L66,35 L71,35 L67,38 L69,43 L64,40 L59,43 L61,38 L57,35 L62,35 Z"
+            android:fillColor="#D4AF37" />
+
+        <!-- Little sparkles on left and right -->
+        <path
+            android:pathData="M39,40 L40.5,42.5 L43.5,42.5 L41,44.5 L42,47.5 L39.5,45.5 L37,47.5 L38,44.5 L35.5,42.5 L38.5,42.5 Z"
+            android:fillColor="#D4AF37" />
+
+        <path
+            android:pathData="M89,40 L90.5,42.5 L93.5,42.5 L91,44.5 L92,47.5 L89.5,45.5 L87,47.5 L88,44.5 L85.5,42.5 L88.5,42.5 Z"
+            android:fillColor="#D4AF37" />
+
+    </group>
+
 </vector>
