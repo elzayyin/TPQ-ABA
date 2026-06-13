@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Launch
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -227,6 +228,58 @@ fun ConfigScreen(
                                             Spacer(modifier = Modifier.width(4.dp))
                                             Text("Hapus", fontSize = 10.sp, fontWeight = FontWeight.Bold)
                                         }
+                                    }
+                                }
+                            }
+                        }
+
+                        if (localLogoPath != null && File(localLogoPath!!).exists()) {
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = HighDensitySecondaryContainer.copy(alpha = 0.5f)),
+                                border = BorderStroke(1.dp, HighDensityBorder),
+                                shape = RoundedCornerShape(12.dp),
+                                modifier = Modifier.fillMaxWidth().testTag("pin_shortcut_card")
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.Launch,
+                                        contentDescription = "Pintasan Launcher",
+                                        tint = HighDensityPrimary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            "Ikon Launcher Home Screen",
+                                            fontSize = 11.sp,
+                                            fontWeight = FontWeight.Bold,
+                                            color = HighDensityTextDark
+                                        )
+                                        Text(
+                                            "Pasang/buat ikon pintasan baru di Home Screen HP dengan Logo & nama lembaga ini.",
+                                            fontSize = 9.sp,
+                                            color = HighDensityTextMedium
+                                        )
+                                    }
+                                    Button(
+                                        onClick = {
+                                            try {
+                                                pinAppShortcut(context, namaTpq, localLogoPath)
+                                                android.widget.Toast.makeText(context, "Minta penambahan pintasan Home Screen...", android.widget.Toast.LENGTH_SHORT).show()
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                                android.widget.Toast.makeText(context, "Gagal: ${e.localizedMessage}", android.widget.Toast.LENGTH_SHORT).show()
+                                            }
+                                        },
+                                        colors = ButtonDefaults.buttonColors(containerColor = HighDensityPrimary),
+                                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+                                        shape = RoundedCornerShape(6.dp),
+                                        modifier = Modifier.height(28.dp).testTag("pin_shortcut_btn")
+                                    ) {
+                                        Text("Pasang", fontSize = 9.sp, fontWeight = FontWeight.Bold)
                                     }
                                 }
                             }
@@ -585,5 +638,35 @@ private fun saveAndCompressLogo(context: Context, uri: Uri): File? {
     } catch (e: Exception) {
         e.printStackTrace()
         null
+    }
+}
+
+fun pinAppShortcut(context: Context, label: String, logoPath: String?) {
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        val shortcutManager = context.getSystemService(android.content.pm.ShortcutManager::class.java)
+        if (shortcutManager != null && shortcutManager.isRequestPinShortcutSupported) {
+            val intent = android.content.Intent(context, com.elshadiqan.tpqaba.MainActivity::class.java).apply {
+                action = android.content.Intent.ACTION_MAIN
+            }
+            
+            val icon = if (logoPath != null && File(logoPath).exists()) {
+                val bitmap = BitmapFactory.decodeFile(logoPath)
+                if (bitmap != null) {
+                    androidx.core.graphics.drawable.IconCompat.createWithBitmap(bitmap)
+                } else {
+                    androidx.core.graphics.drawable.IconCompat.createWithResource(context, com.elshadiqan.tpqaba.R.drawable.logo_tpq)
+                }
+            } else {
+                androidx.core.graphics.drawable.IconCompat.createWithResource(context, com.elshadiqan.tpqaba.R.drawable.logo_tpq)
+            }
+            
+            val pinShortcutInfo = androidx.core.content.pm.ShortcutInfoCompat.Builder(context, "tpq_dynamic_shortcut")
+                .setShortLabel(label)
+                .setIcon(icon)
+                .setIntent(intent)
+                .build()
+                
+            androidx.core.content.pm.ShortcutManagerCompat.requestPinShortcut(context, pinShortcutInfo, null)
+        }
     }
 }

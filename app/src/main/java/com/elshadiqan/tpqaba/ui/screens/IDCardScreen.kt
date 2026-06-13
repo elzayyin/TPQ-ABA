@@ -858,13 +858,23 @@ fun CardBelakangLayout(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    androidx.compose.foundation.Image(
-                        painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
-                        contentDescription = "Logo School",
-                        modifier = Modifier
-                            .size(20.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                    )
+                    if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) {
+                        AsyncImage(
+                            model = appConfig.logoTpq,
+                            contentDescription = "Logo School",
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                        )
+                    } else {
+                        androidx.compose.foundation.Image(
+                            painter = androidx.compose.ui.res.painterResource(id = com.elshadiqan.tpqaba.R.drawable.logo_tpq),
+                            contentDescription = "Logo School",
+                            modifier = Modifier
+                                .size(20.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                        )
+                    }
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = "TATA TERTIB & KETENTUAN KARTU SANTRI",

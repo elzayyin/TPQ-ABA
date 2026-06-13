@@ -600,14 +600,25 @@ fun SplashScreen(appConfig: AppConfig) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier.padding(24.dp)
         ) {
-            androidx.compose.foundation.Image(
-                painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_tpq),
-                contentDescription = "Logo LPQ Abu Bakar Amin",
-                modifier = Modifier
-                    .size(160.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .border(2.dp, Color(0xFF0B8043).copy(alpha = 0.15f), RoundedCornerShape(24.dp))
-            )
+            if (appConfig.logoTpq != null && File(appConfig.logoTpq).exists()) {
+                AsyncImage(
+                    model = appConfig.logoTpq,
+                    contentDescription = "Logo School",
+                    modifier = Modifier
+                        .size(160.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .border(2.dp, Color(0xFF0B8043).copy(alpha = 0.15f), RoundedCornerShape(24.dp))
+                )
+            } else {
+                androidx.compose.foundation.Image(
+                    painter = androidx.compose.ui.res.painterResource(id = R.drawable.logo_tpq),
+                    contentDescription = "Logo LPQ Abu Bakar Amin",
+                    modifier = Modifier
+                        .size(160.dp)
+                        .clip(RoundedCornerShape(24.dp))
+                        .border(2.dp, Color(0xFF0B8043).copy(alpha = 0.15f), RoundedCornerShape(24.dp))
+                )
+            }
             Spacer(modifier = Modifier.height(24.dp))
             
             Text(

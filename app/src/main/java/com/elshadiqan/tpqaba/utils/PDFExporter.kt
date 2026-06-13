@@ -43,7 +43,8 @@ object PDFExporter {
         height: Int,
         logo: Bitmap,
         paint: Paint,
-        isDarkBg: Boolean
+        isDarkBg: Boolean,
+        isCustomLogo: Boolean = false
     ) {
         val originalAlpha = paint.alpha
         val originalColorFilter = paint.colorFilter
@@ -64,9 +65,14 @@ object PDFExporter {
         val left = x + (width - drawWidth) / 2
         val top = y + (height - drawHeight) / 2
         
-        paint.alpha = 20 // ~8% transparency
-        val filterColor = if (isDarkBg) "#A3E635" else "#0E5C3A"
-        paint.colorFilter = PorterDuffColorFilter(Color.parseColor(filterColor), PorterDuff.Mode.SRC_IN)
+        if (isCustomLogo) {
+            paint.alpha = 42 // Beautiful soft watermark for custom colorful logo (approx 16.5% opacity)
+            paint.colorFilter = null
+        } else {
+            paint.alpha = 48 // Crisp visible watermark for default vector logo (approx 18.8% opacity)
+            val filterColor = if (isDarkBg) "#A3E635" else "#0E5C3A"
+            paint.colorFilter = PorterDuffColorFilter(Color.parseColor(filterColor), PorterDuff.Mode.SRC_IN)
+        }
         
         val destRect = RectF(left.toFloat(), top.toFloat(), (left + drawWidth).toFloat(), (top + drawHeight).toFloat())
         canvas.save()
@@ -170,7 +176,8 @@ object PDFExporter {
         // Draw Watermark Logo
         val logoBmp = getLogoBitmap(context, appConfig)
         if (logoBmp != null) {
-            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false)
+            val isCustom = appConfig.logoTpq != null && File(appConfig.logoTpq).exists()
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false, isCustomLogo = isCustom)
         }
 
         // Green Header Band
@@ -333,7 +340,8 @@ object PDFExporter {
         // Draw Watermark Logo
         val logoBmp = getLogoBitmap(context, appConfig)
         if (logoBmp != null) {
-            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false)
+            val isCustom = appConfig.logoTpq != null && File(appConfig.logoTpq).exists()
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = false, isCustomLogo = isCustom)
         }
 
         // Title Back
@@ -482,7 +490,8 @@ object PDFExporter {
         // Draw Watermark Logo
         val logoBmp = getLogoBitmap(context, appConfig)
         if (logoBmp != null) {
-            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true)
+            val isCustom = appConfig.logoTpq != null && File(appConfig.logoTpq).exists()
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true, isCustomLogo = isCustom)
         }
 
         // Top decorative curved ribbons
@@ -680,7 +689,8 @@ object PDFExporter {
         // Draw Watermark Logo
         val logoBmp = getLogoBitmap(context, appConfig)
         if (logoBmp != null) {
-            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true)
+            val isCustom = appConfig.logoTpq != null && File(appConfig.logoTpq).exists()
+            drawWatermark(canvas, x, y, width, height, logoBmp, paint, isDarkBg = true, isCustomLogo = isCustom)
         }
 
         // Top heading
